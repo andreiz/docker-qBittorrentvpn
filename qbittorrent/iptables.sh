@@ -108,10 +108,10 @@ else
 fi
 
 # accept input to qbittorrent daemon port - used for lan access
-if [ -z "${INCOMING_PORT}" ]; then
+if [ -z "${INCOMING_PORT_ENV}" ]; then
 	iptables -A INPUT -i eth0 -s "${LAN_NETWORK}" -p tcp --dport 8999 -j ACCEPT
 else
-	iptables -A INPUT -i eth0 -s "${LAN_NETWORK}" -p tcp --dport ${INCOMING_PORT} -j ACCEPT
+	iptables -A INPUT -i eth0 -s "${LAN_NETWORK}" -p tcp --dport ${INCOMING_PORT_ENV} -j ACCEPT
 fi
 	
 
@@ -164,11 +164,11 @@ else
 fi
 
 # accept output to qBittorrent daemon port - used for lan access
-if [ -z "${INCOMING_PORT}" ]; then
+if [ -z "${INCOMING_PORT_ENV}" ]; then
 	iptables -A OUTPUT -o eth0 -d "${LAN_NETWORK}" -p tcp --sport 8999 -j ACCEPT
 else
-	echo "[info] Incoming connections port defined as ${INCOMING_PORT}" | ts '%Y-%m-%d %H:%M:%.S'
-	iptables -A OUTPUT -o eth0 -d "${LAN_NETWORK}" -p tcp --sport ${INCOMING_PORT} -j ACCEPT
+	echo "[info] Incoming connections port defined as ${INCOMING_PORT_ENV}" | ts '%Y-%m-%d %H:%M:%.S'
+	iptables -A OUTPUT -o eth0 -d "${LAN_NETWORK}" -p tcp --sport ${INCOMING_PORT_ENV} -j ACCEPT
 fi
 
 # accept output for icmp (ping)
